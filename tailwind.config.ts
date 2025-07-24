@@ -61,7 +61,18 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				contact: {
+					primary: 'hsl(var(--contact-primary))',
+					'primary-foreground': 'hsl(var(--contact-primary-foreground))',
+					accent: 'hsl(var(--contact-accent))',
+					success: 'hsl(var(--contact-success))',
+					error: 'hsl(var(--contact-error))'
 				}
+			},
+			backgroundImage: {
+				'gradient-contact': 'var(--gradient-contact)',
+				'gradient-subtle': 'var(--gradient-subtle)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
