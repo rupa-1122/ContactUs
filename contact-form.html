@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.462.0/lucide.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .gradient-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .spinner {
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg flex items-center justify-center p-4">
+    <div class="w-full max-w-2xl bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border-0">
+        <!-- Header -->
+        <div class="text-center space-y-4 p-8 pb-4">
+            <div class="mx-auto w-16 h-16 gradient-btn rounded-full flex items-center justify-center">
+                <i data-lucide="send" class="w-8 h-8 text-white"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900">Get In Touch</h1>
+            <p class="text-lg text-gray-600 max-w-md mx-auto">
+                Have a question or want to work together? Send us a message and we'll get back to you shortly.
+            </p>
+        </div>
+
+        <!-- Form -->
+        <div class="p-8 pt-4">
+            <form id="contactForm" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label for="name" class="text-sm font-medium text-gray-700">
+                            Full Name *
+                        </label>
+                        <input
+                            id="name"
+                            name="name"
+                            type="text"
+                            placeholder="Your full name"
+                            required
+                            class="w-full h-12 px-4 border-2 border-gray-200 rounded-lg form-input focus:outline-none"
+                        />
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="email" class="text-sm font-medium text-gray-700">
+                            Email Address *
+                        </label>
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            placeholder="your.email@example.com"
+                            required
+                            class="w-full h-12 px-4 border-2 border-gray-200 rounded-lg form-input focus:outline-none"
+                        />
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="subject" class="text-sm font-medium text-gray-700">
+                        Subject *
+                    </label>
+                    <input
+                        id="subject"
+                        name="subject"
+                        type="text"
+                        placeholder="What's this about?"
+                        required
+                        class="w-full h-12 px-4 border-2 border-gray-200 rounded-lg form-input focus:outline-none"
+                    />
+                </div>
+
+                <div class="space-y-2">
+                    <label for="message" class="text-sm font-medium text-gray-700">
+                        Message *
+                    </label>
+                    <textarea
+                        id="message"
+                        name="message"
+                        placeholder="Tell us more about your inquiry..."
+                        required
+                        rows="5"
+                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg form-input focus:outline-none resize-none"
+                    ></textarea>
+                </div>
+
+                <button
+                    type="submit"
+                    id="submitBtn"
+                    class="w-full h-12 gradient-btn hover:opacity-90 text-white font-semibold text-lg rounded-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                >
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                    <span>Send Message</span>
+                </button>
+            </form>
+
+            <!-- Success Message -->
+            <div id="successMessage" class="hidden mt-6 flex items-center space-x-3 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <i data-lucide="check-circle" class="w-6 h-6 text-green-600 flex-shrink-0"></i>
+                <div>
+                    <p class="font-medium text-green-800">Message sent successfully!</p>
+                    <p class="text-sm text-green-600">We'll get back to you within 24 hours.</p>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="hidden mt-6 flex items-center space-x-3 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <i data-lucide="alert-circle" class="w-6 h-6 text-red-600 flex-shrink-0"></i>
+                <div>
+                    <p class="font-medium text-red-800">Failed to send message</p>
+                    <p class="text-sm text-red-600">Please try again or contact us directly.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // EmailJS Configuration
+        const EMAILJS_CONFIG = {
+            publicKey: '_5E3TBTSxOfgNVIWG',
+            serviceId: 'service_fkb2flr',
+            templateId: 'template_frnzbtp'
+        };
+
+        // Initialize EmailJS
+        emailjs.init(EMAILJS_CONFIG.publicKey);
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Form handling
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Hide previous messages
+            successMessage.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <div class="spinner"></div>
+                <span>Sending...</span>
+            `;
+            
+            // Get form data
+            const formData = new FormData(form);
+            const templateParams = {
+                from_name: formData.get('name'),
+                from_email: formData.get('email'),
+                subject: formData.get('subject'),
+                message: formData.get('message'),
+                to_name: 'Support Team'
+            };
+            
+            try {
+                await emailjs.send(
+                    EMAILJS_CONFIG.serviceId,
+                    EMAILJS_CONFIG.templateId,
+                    templateParams
+                );
+                
+                // Show success message
+                successMessage.classList.remove('hidden');
+                form.reset();
+                
+            } catch (error) {
+                console.error('EmailJS Error:', error);
+                errorMessage.classList.remove('hidden');
+            } finally {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                    <span>Send Message</span>
+                `;
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>

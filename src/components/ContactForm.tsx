@@ -12,7 +12,7 @@ import { Send, CheckCircle, AlertCircle } from 'lucide-react';
 const EMAILJS_CONFIG = {
   publicKey: '_5E3TBTSxOfgNVIWG',
   serviceId: 'service_fkb2flr',
-  templateId: 'template_bn5g7lg'
+  templateId: 'template_frnzbtp'
 };
 
 interface FormData {
